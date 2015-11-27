@@ -14,7 +14,7 @@ includeDot (CodeBlock (id, cls, attrs) code)
   hPutStr hndl code
   hClose hndl
   callCommand $ cmd ++ path
-  return $ Plain [Image [Str txt] (path ++ ".png", title)]
+  return $ Plain [Image ("", ["graphviz"], [("", "")]) [Str txt] (path ++ ".png", title)]
   where
     cmd = fromMaybe "dot -Tpng -O " $ lookup "dotcmd" attrs
     title = fromMaybe "" $ lookup "title" attrs
