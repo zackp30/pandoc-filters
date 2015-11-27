@@ -15,7 +15,7 @@ includePlot (CodeBlock (id, cls, attrs) code)
   hPutStr hndl code
   hClose hndl
   callCommand $ (subRegex (mkRegex "<!>") cmd (path ++ ".png")) ++ " " ++ path
-  return $ Plain [Image [Str txt] (path ++ ".png", title)]
+  return $ Plain [Image ("", ["graphviz"], [("", "")]) [Str txt] (path ++ ".png", title)]
   where
     cmd = fromMaybe "gnuplot -e \"set term png; set output '<!>'\"" $ lookup "plotcmd" attrs
     title = fromMaybe "" $ lookup "title" attrs
