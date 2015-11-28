@@ -13,14 +13,14 @@ mintedBlock  (CodeBlock (id, cls, attrs) code) =
         , "\\captionof{listing}{" ++ caption ++ label ++ "}"
         , "\\egroup" ]
     where label = if id /= "" then "\\label{" ++ id ++  "}" else ""
-          lang = if cls /= [] then head cls else "\\mintlang"
+          lang = if cls /= [] then head cls else "text"
           caption = fromMaybe "" $ lookup "caption" attrs
 mintedBlock x = x
 
 mintedInline :: Inline -> Inline
 mintedInline (Code (_, cls, _) contents) =
-  RawInline (Format "latex") $ "\\mintedinline{" ++ lang ++ "}{" ++ contents ++ "}"
-  where lang = if cls /= [] then head cls else "\\mintlang"
+  RawInline (Format "latex") $ "\\mintinline{" ++ lang ++ "}{" ++ contents ++ "}"
+  where lang = if cls /= [] then head cls else "text"
 
 mintedInline x = x
 
