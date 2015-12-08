@@ -2,7 +2,8 @@
 import Text.Pandoc.JSON
 import System.Process
 import System.Posix.Temp
-import System.Process
+import System.Posix.Files
+import System.IO
 import Data.Maybe
 
 includeDot :: Block -> IO Block
@@ -12,12 +13,12 @@ includeDot (CodeBlock (id, cls, attrs) code)
   (path, hndl) <- mkstemp "/tmp/pandoc-z-sh"
   hPutStr hndl code
   hClose hndl
-  out <- readProcess (cmd ++ " " ++ path)
-  return $ Plain [out]
+  out <- readProcess cmd [path] ""
+  setFileMode path ownerExecuteMode
+  return $ Plain [Str out]
   where
-    cmd = fromMaybe "bash " $ lookup "dotcmd" attrs
+    cmd = fromMaybe "bash" $ lookup "bashcmd" attrs
     title = fromMaybe "" $ lookup "title" attrs
-    txt = fromMaybe "" $ lookup "dotcmd" attrs
 
 includeDot x = return x
 
