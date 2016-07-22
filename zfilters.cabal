@@ -27,7 +27,8 @@ executable pandoc-gravatar
   build-depends:       base >= 4.7 && < 5,
                        pandoc-types >= 1.16,
                        gravatar,
-                       regex-posix,
+                       text-regex-replace,
+                       bytestring,
                        text
 
 executable pandoc-gnuplot

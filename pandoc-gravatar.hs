@@ -1,13 +1,16 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
 import Text.Pandoc.JSON
 import Network.Gravatar
-import Text.Regex.Posix
+import qualified Data.ByteString.Char8 as C
+import qualified Data.Text as T
 
-default Text
+
+
 includeGravatar :: Inline -> IO Inline
 includeGravatar (Link attr inlines (tgt, title))
-  | tgt =~ "^user:"
-  = return $ Image attr inlines (gravatar def "zack@apertron.net", title)
+  | tgt =~ C.unpack "^user:"
+  = return $ Image attr inlines (gravatar def (concatMap (\c -> )), title)
 
 includeGravatar x = return x
 
